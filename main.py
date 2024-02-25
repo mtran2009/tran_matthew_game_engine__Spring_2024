@@ -7,7 +7,8 @@ from sprites import *
 from random import randint
 import sys
 from os import path
-    
+
+
 # Creates an object constructor called "Game"
 class Game:
     # Allows us to assign properties to the class
@@ -40,10 +41,11 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         #Places all the walls in a group
         self.walls = pg.sprite.Group()
+        self.coins = pg.sprite.Group()
         # Sets size of player and gives player access to everything in the game with "self"
-        # self.player1 = Player(self, 1,1)
-        # for x in range (10,20):
-        #     Wall (self, x, 5)
+        # self.player1 = Player(self, 1, 1)
+        # for x in range(10, 20):
+        #     Wall(self, x, 5)
         for row, tiles in enumerate(self.map_data):
             print(row)
             for col, tile in enumerate(tiles):
@@ -51,12 +53,14 @@ class Game:
                 if tile == '1':
                     print("a wall at", row, col)
                     Wall(self, col, row)
-                if tile =='P':
-                    self.player = Player(self,col,row)
+                if tile == 'P':
+                    self.player = Player(self, col, row)
+                if tile == '2':
+                    Coin(self, col, row)
 
 # Defines the method run
     def run(self):
-        # While loop to run code while the the game is being played
+        # 
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000
@@ -65,8 +69,8 @@ class Game:
             self.draw()
 # Defines the method quit
     def quit(self):
-        pg.quit()
-        sys.exit()
+         pg.quit()
+         sys.exit()
 #Defines the method update
     def update(self):
         self.all_sprites.update()
@@ -74,10 +78,17 @@ class Game:
     def draw_grid(self):
         #sets the location and color of the horizontal lines
         for x in range(0, WIDTH, TILESIZE):
-            pg.draw.line(self.screen,LIGHTGREY, (x, 0), (x, HEIGHT))
+              pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         #sets the location and color of the vertical lines
         for y in range(0, HEIGHT, TILESIZE):
-            pg.draw.line(self.screen,LIGHTGREY, (0, y), (WIDTH, y))
+              pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
+    def draw_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('arial')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (x*TILESIZE,y*TILESIZE)
+        surface.blit(text_surface, text_rect)
 
 #Defines the draw method that draws everything in the game    
     def draw(self):
@@ -87,6 +98,8 @@ class Game:
         self.draw_grid()
         #draws the sprites
         self.all_sprites.draw(self.screen)
+        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
+        
         pg.display.flip()
 
     def events(self):
