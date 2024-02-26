@@ -42,6 +42,7 @@ class Game:
         #Places all the walls in a group
         self.walls = pg.sprite.Group()
         self.coins = pg.sprite.Group()
+        self.power_ups = pg.sprite.Group()
         # Sets size of player and gives player access to everything in the game with "self"
         # self.player1 = Player(self, 1, 1)
         # for x in range(10, 20):
@@ -57,10 +58,12 @@ class Game:
                     self.player = Player(self, col, row)
                 if tile == '2':
                     Coin(self, col, row)
+                if tile == '3':
+                    PowerUp(self, col, row)
 
 # Defines the method run
     def run(self):
-        # 
+        # While loop to run code while the the game is being played
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000
@@ -82,13 +85,6 @@ class Game:
         #sets the location and color of the vertical lines
         for y in range(0, HEIGHT, TILESIZE):
               pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
-    def draw_text(self, surface, text, size, color, x, y):
-        font_name = pg.font.match_font('arial')
-        font = pg.font.Font(font_name, size)
-        text_surface = font.render(text, True, color)
-        text_rect = text_surface.get_rect()
-        text_rect.topleft = (x*TILESIZE,y*TILESIZE)
-        surface.blit(text_surface, text_rect)
 
 #Defines the draw method that draws everything in the game    
     def draw(self):
@@ -98,7 +94,6 @@ class Game:
         self.draw_grid()
         #draws the sprites
         self.all_sprites.draw(self.screen)
-        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
         
         pg.display.flip()
 
