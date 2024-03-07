@@ -48,6 +48,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.coins = pg.sprite.Group()
         self.power_ups = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
         # Sets size of player and gives player access to everything in the game with "self"
         # self.player1 = Player(self, 1, 1)
         # for x in range(10, 20):
@@ -65,6 +66,8 @@ class Game:
                     Coin(self, col, row)
                 if tile == '3':
                     PowerUp(self, col, row)
+                if tile == 'M':
+                    Mobs(self, col, row)
 
 # Defines the method run
     def run(self):
@@ -92,7 +95,7 @@ class Game:
               pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw_text(self, surface, text, size, color, x, y):
-        font_name = pg.font.match_font('arial')
+        font_name = pg.font.match_font('comic sans')
         font = pg.font.Font(font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
@@ -129,12 +132,28 @@ class Game:
             #     #if W key pressed, player will move one y position up
             #     if event.key == pg.K_w:
             #         self.player1.move(dy=-1)
+    def show_start_screen(self):
+        self.screen.fill(BGCOLOR)
+        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2 - 32, 2)
+        pg.display.flip()
+        self.wait_for_key()
+
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.quit()
+                if event.type == pg.KEYUP:
+                    waiting = False
 
 #Instantiates the game
 g = Game()
 #Uses the game method run to run the program
-# g.show_start_screen()
+g.show_start_screen()
 while True:
     g.new()
     g.run()
-    # g.show_go_screen()             
+    # g.show_go_screen()                       
