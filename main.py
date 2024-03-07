@@ -2,10 +2,8 @@
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
 '''
-more maps/levels
 moving enemies
-usable powerups
-coin counter
+coin counter ✔
 player death
 '''
 import pygame as pg
@@ -93,6 +91,14 @@ class Game:
         for y in range(0, HEIGHT, TILESIZE):
               pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
+    def draw_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('arial')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (x*TILESIZE,y*TILESIZE)
+        surface.blit(text_surface, text_rect)
+
 #Defines the draw method that draws everything in the game    
     def draw(self):
         #sets the background color of the screen
@@ -101,6 +107,7 @@ class Game:
         self.draw_grid()
         #draws the sprites
         self.all_sprites.draw(self.screen)
+        self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
         
         pg.display.flip()
 
@@ -130,4 +137,4 @@ g = Game()
 while True:
     g.new()
     g.run()
-    # g.show_go_screen()
+    # g.show_go_screen()             
