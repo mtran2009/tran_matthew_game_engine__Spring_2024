@@ -2,9 +2,9 @@
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
 '''
-moving enemies
+moving enemies and player death
 coin counter ✔
-player death
+new maps
 '''
 import pygame as pg
 from settings import *
