@@ -144,9 +144,39 @@ class Mobs(pg.sprite.Sprite):
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image.fill(RED)
         self.rect = self.image.get_rect()
-        self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
         self.y = y * TILESIZE
-        self.speed = 300
+        self.vx, self.vy = 100, 100
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+        self.speed = 1
+    def collide_with_walls(self, dir):
+        if dir == 'x':
+            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                self.vx *= -1
+                self.rect.x = self.x
+        if dir == 'y':
+            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                self.vx *= -1
+                self.rect.x = self.x
+    def update(self):
+        #self.rect.x += 1
+        self.x += self.vx * self.game.dt
+        self.y += self.vy * self.game.dt
+
+        if self.rect.x < self.game.player.rect.x:
+            self.vx = 100
+        if self.rect.x > self.game.player.rect.x:
+            self.vx = -100
+        if self.rect.y < self.game.player.rect.y:
+            self.vy = 100
+        if self.rect.y > self.game.player.rect.y:
+            self.vy = -100
+        self.rect.x = self.x
+        self.collide_with_walls('x')
+        self.rect.y = self.y
+        self.collide_with_walls('y')
