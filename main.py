@@ -13,6 +13,8 @@ from random import randint
 import sys
 from os import path
 
+Level1 = "map.txt"
+Level2 = "map2.txt"
 
 # Creates an object constructor called "Game"
 class Game:
@@ -28,17 +30,49 @@ class Game:
         self.load_data()
 #Defines the load data method, displays high score for game
     def load_data(self):
-        game_folder = path.dirname(__file__)
+        self.game_folder = path.dirname(__file__)
         self.map_data = []
         '''
         The with statement is a context manager in Python. 
         It is used to ensure that a resource is properly closed or released 
         after it is used. This can help to prevent errors and leaks.
         '''
-        with open(path.join(game_folder, 'map.txt'), 'rt') as f:
+        with open(path.join(self.game_folder, Level1), 'rt') as f:
             for line in f:
                 print(line)
                 self.map_data.append(line)
+
+    def change_level(self, Level2):
+        # kill all existing sprites first to save memory
+        for s in self.all_sprites:
+            s.kill()
+        # reset criteria for changing level
+        self.player.moneybag = 0
+        # reset map data list to empty
+        self.map_data = []
+        # open next level
+        with open(path.join(self.game_folder, Level2), 'rt') as f:
+            for line in f:
+                print(line)
+                self.map_data.append(line)
+        for row, tiles in enumerate(self.map_data):
+            print(row)
+            for col, tile in enumerate(tiles):
+                print(col)
+                if tile == '1':
+                    print("a wall at", row, col)
+                    Wall(self, col, row)
+                if tile == 'P':
+                    self.player = Player(self, col, row)
+                if tile == '2':
+                    Coin(self, col, row)
+                if tile == '3':
+                    PowerUp(self, col, row)
+                if tile == 'M':
+                    Mobs(self, col, row)
+                if tile == '4':
+                    ChangeMap(self, col, row)
+
 # Defines the method new
     def new(self):
         print("create new game...")
@@ -49,6 +83,7 @@ class Game:
         self.coins = pg.sprite.Group()
         self.power_ups = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
+        self.change_map = pg.sprite.Group()
         # Sets size of player and gives player access to everything in the game with "self"
         # self.player1 = Player(self, 1, 1)
         # for x in range(10, 20):
@@ -68,6 +103,8 @@ class Game:
                     PowerUp(self, col, row)
                 if tile == 'M':
                     Mobs(self, col, row)
+                if tile == '4':
+                    ChangeMap(self, col, row)
 
 # Defines the method run
     def run(self):
@@ -134,10 +171,10 @@ class Game:
             #         self.player1.move(dy=-1)
     def show_start_screen(self):
         self.screen.fill(BGCOLOR)
-        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2 - 32, 2)
+        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2, HEIGHT/2)
         pg.display.flip()
         self.wait_for_key()
-
+    
     def wait_for_key(self):
         waiting = True
         while waiting:
