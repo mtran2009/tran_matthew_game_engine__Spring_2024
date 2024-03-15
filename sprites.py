@@ -76,11 +76,8 @@ class Player(pg.sprite.Sprite):
             if str(hits[0].__class__.__name__) == "Mob":
                 print(hits[0]._class__.__name)
                 print("collided with mob")
-    def collide_with_changewall(self, group, kill):
-        hits = pg.sprite.spritecollide(self, group, kill)
-        if hits:
             if str(hits[0].__class__.__name__) == "ChangeMap":
-                self.change_level()
+                self.game.change_level("map2.txt")
 
     def update(self):
         self.get_keys()

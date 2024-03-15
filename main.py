@@ -4,7 +4,7 @@
 '''
 moving enemies and player death
 coin counter ✔
-new maps
+new maps ✔
 '''
 import pygame as pg
 from settings import *
@@ -42,11 +42,11 @@ class Game:
                 print(line)
                 self.map_data.append(line)
 
-    def change_level(self, Level2):
+    def change_level(self, lvl):
         # kill all existing sprites first to save memory
         for s in self.all_sprites:
             s.kill()
-        # reset criteria for changing level
+        # resets player moneybag
         self.player.moneybag = 0
         # reset map data list to empty
         self.map_data = []
