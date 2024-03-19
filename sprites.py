@@ -80,6 +80,8 @@ class Player(pg.sprite.Sprite):
                 self.hitpoints -= 1
             if str(hits[0].__class__.__name__) == "ChangeMap":
                 self.game.change_level("map2.txt")
+            if self.hitpoints == 0:
+                quit(self)
 
     def update(self):
         self.get_keys()
