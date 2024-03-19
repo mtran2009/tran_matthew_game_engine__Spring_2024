@@ -2,7 +2,7 @@
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
 '''
-player health bar and death
+player health bar and death ✔
 coin counter ✔
 new maps ✔
 '''

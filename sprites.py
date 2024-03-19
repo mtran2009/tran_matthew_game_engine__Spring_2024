@@ -74,8 +74,8 @@ class Player(pg.sprite.Sprite):
                 self.moneybag += 1
             if str(hits[0].__class__.__name__) == "PowerUp":
                 self.speed += 50
-            if str(hits[0].__class__.__name__) == "Mob":
-                print(hits[0]._class__.__name)
+            if str(hits[0].__class__.__name__) == "Mobs":
+                print(hits[0].__class__.__name__)
                 print("collided with mob")
                 self.hitpoints -= 1
             if str(hits[0].__class__.__name__) == "ChangeMap":
@@ -94,6 +94,8 @@ class Player(pg.sprite.Sprite):
         self.collide_with_group(self.game.coins, True)
         self.collide_with_group(self.game.power_ups, True)
         self.collide_with_group(self.game.mobs, False)
+        if self.collide_with_group(self.game.mobs, False):
+            self.hitpoints = -1
         self.collide_with_group(self.game.change_map, True)
           
         # coin_hits = pg.sprite.spritecollide(self.game.coins, True)
@@ -155,7 +157,7 @@ class ChangeMap(pg.sprite.Sprite):
 
 class Mobs(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites
+        self.groups = game.all_sprites, game.mobs
         #Initializes super class
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
