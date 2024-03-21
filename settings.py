@@ -7,6 +7,7 @@ FPS = 30
 #Game Title
 TITLE  = "My Fun Game"
 
+#Size of each tile
 TILESIZE = 32
 
 #Colors of the game

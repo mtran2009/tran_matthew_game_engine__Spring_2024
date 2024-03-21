@@ -1,6 +1,8 @@
 # This file was created by: Matthew Tran
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
+
+#Goals!
 '''
 player health bar and death ✔
 coin counter ✔
@@ -13,17 +15,21 @@ from random import randint
 import sys
 from os import path
 
+#Map levels
 Level1 = "map.txt"
 Level2 = "map2.txt"
 
+#Function to draw a health bar
 def draw_health_bar(surf, x, y, pct):
     if pct < 0:
         pct = 0
+    #Sets the size/dimensions of the health bar
     BAR_LENGTH = 32
     BAR_HEIGHT = 10
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pg.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pg.Rect(x, y, fill, BAR_HEIGHT)
+    #colors in the heathbar
     pg.draw.rect(surf, GREEN, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
@@ -48,11 +54,13 @@ class Game:
         It is used to ensure that a resource is properly closed or released 
         after it is used. This can help to prevent errors and leaks.
         '''
+        #opens level 1 map when game is run
         with open(path.join(self.game_folder, Level1), 'rt') as f:
             for line in f:
                 print(line)
                 self.map_data.append(line)
 
+#function to change the level when a certain block is hit
     def change_level(self, lvl):
         # kill all existing sprites first to save memory
         for s in self.all_sprites:
@@ -66,21 +74,30 @@ class Game:
             for line in f:
                 print(line)
                 self.map_data.append(line)
+        
+        #draws blocks in the map for the levels
         for row, tiles in enumerate(self.map_data):
             print(row)
+            #draws a ceratin block on the game according to assigned #s on a map
             for col, tile in enumerate(tiles):
                 print(col)
+                #Creates a wall for every "1" in the map
                 if tile == '1':
                     print("a wall at", row, col)
                     Wall(self, col, row)
+                #Creates a player for ever "P" in the map
                 if tile == 'P':
                     self.player = Player(self, col, row)
+                #creates a coin for every "2" in the map
                 if tile == '2':
                     Coin(self, col, row)
+                #creates a powerup for every "3" in the map
                 if tile == '3':
                     PowerUp(self, col, row)
+                #creates a mob for every "M" in the map
                 if tile == 'M':
                     Mobs(self, col, row)
+                #creates a change map block for every "4" in the map
                 if tile == '4':
                     ChangeMap(self, col, row)
 
@@ -99,21 +116,30 @@ class Game:
         # self.player1 = Player(self, 1, 1)
         # for x in range(10, 20):
         #     Wall(self, x, 5)
+
+        #draws blocks in the map for the levels
         for row, tiles in enumerate(self.map_data):
             print(row)
+            #draws a ceratin block on the game according to assigned #s on a map
             for col, tile in enumerate(tiles):
                 print(col)
+                #Creates a wall for every "1" in the map
                 if tile == '1':
                     print("a wall at", row, col)
                     Wall(self, col, row)
+                #Creates a player for ever "P" in the map
                 if tile == 'P':
                     self.player = Player(self, col, row)
+                #creates a coin for every "2" in the map
                 if tile == '2':
                     Coin(self, col, row)
+                #creates a powerup for every "3" in the map
                 if tile == '3':
                     PowerUp(self, col, row)
+                #creates a mob for every "M" in the map
                 if tile == 'M':
                     Mobs(self, col, row)
+                #creates a change map block for every "4" in the map
                 if tile == '4':
                     ChangeMap(self, col, row)
 
@@ -144,6 +170,7 @@ class Game:
         for y in range(0, HEIGHT, TILESIZE):
               pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
+    #function that draws the text, setting the font and coordinates
     def draw_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('comic sans')
         font = pg.font.Font(font_name, size)
@@ -160,7 +187,9 @@ class Game:
         self.draw_grid()
         #draws the sprites
         self.all_sprites.draw(self.screen)
+        #draws and sets the color for the coin counter text
         self.draw_text(self.screen, str(self.player.moneybag), 64, WHITE, 1, 1)
+        #draws the health bar
         draw_health_bar(self.screen, self.player.rect.x, self.player.rect.y-8, self.player.hitpoints)
         
         pg.display.flip()
@@ -183,20 +212,27 @@ class Game:
             #     #if W key pressed, player will move one y position up
             #     if event.key == pg.K_w:
             #         self.player1.move(dy=-1)
+    #function to show start screen when game is run
     def show_start_screen(self):
+        #sets bg color for start screen
         self.screen.fill(BGCOLOR)
+        #draws text on start screen
         self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2, HEIGHT/2)
         pg.display.flip()
+        #waits for key to be pressed to show the game
         self.wait_for_key()
     
+    #function to wait for key press
     def wait_for_key(self):
         waiting = True
         while waiting:
             self.clock.tick(FPS)
             for event in pg.event.get():
+                #if pygame quits, the game stops waiting for key press and quits
                 if event.type == pg.QUIT:
                     waiting = False
                     self.quit()
+                #if a key is pressed, the game stops waiting
                 if event.type == pg.KEYUP:
                     waiting = False
 
