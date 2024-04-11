@@ -3,6 +3,40 @@
 
 import pygame as pg
 from settings import *
+from pygame.sprite import Sprite
+from os import path
+vec = pg.math.Vector2
+
+SPRITESHEET = "theBell.png"
+
+dir = path.dirname(__file__)
+img_folder = path.join(dir, 'images')
+
+# sets up file with multiple images...
+class Spritesheet:
+    # utility class for loading and parsing spritesheets
+    def __init__(self, filename):
+        self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        # grab an image out of a larger spritesheet
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        # image = pg.transform.scale(image, (width, height))
+        image = pg.transform.scale(image, (width * 4, height * 4))
+        return image
+    
+class Animated_sprite(Sprite):
+    def __init__(self):
+        Sprite.__init__(self)
+        self.spritesheet = Spritesheet(path.join(img_folder, SPRITESHEET))
+        self.load_images()
+        self.image = self.standing_frames[0]
+        self.rect = self.image.get_rect()
+        self.jumping = False
+        self.walking = False
+        self.current_frame = 0
+        self.last_update = 0
 
 #creates a class called "Player"
 class Player(pg.sprite.Sprite):
@@ -12,6 +46,9 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
+        #added player image to prite from the game class...
+        self.spritesheet = Spritesheet(path.join(img_folder, 'theBell.png'))
+        self.load_images()
         #sets color for player
         self.image.fill(TEAL)
         self.rect = self.image.get_rect()

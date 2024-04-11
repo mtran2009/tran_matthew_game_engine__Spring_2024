@@ -217,7 +217,7 @@ class Game:
         #sets bg color for start screen
         self.screen.fill(BGCOLOR)
         #draws text on start screen
-        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2, HEIGHT/2)
+        self.draw_text(self.screen, "This is the start screen", 24, WHITE, 8, 9)
         pg.display.flip()
         #waits for key to be pressed to show the game
         self.wait_for_key()
