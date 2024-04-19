@@ -4,7 +4,7 @@
 
 #Beta Goals!
 '''
-Player/Mob/Coin/Powerup image
+Death Screen ✔
 '''
 import pygame as pg
 from settings import *
