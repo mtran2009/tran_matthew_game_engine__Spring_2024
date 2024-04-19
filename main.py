@@ -2,11 +2,9 @@
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
 
-#Goals!
+#Beta Goals!
 '''
-player health bar and death ✔
-coin counter ✔
-new maps ✔
+Player/Mob/Coin/Powerup image
 '''
 import pygame as pg
 from settings import *
@@ -48,6 +46,8 @@ class Game:
 #Defines the load data method, displays high score for game
     def load_data(self):
         self.game_folder = path.dirname(__file__)
+        # self.img_folder = path.join(self.game_folder, 'images')
+        # self.player_img = pg.image.load(path.join(self.img_folder, 'theBell.png')).convert_alpha()
         self.map_data = []
         '''
         The with statement is a context manager in Python. 
@@ -161,6 +161,9 @@ class Game:
         self.all_sprites.update()
         if self.player.hitpoints < 1:
             self.playing = False
+        #shows death screen if health reaches 0
+        if self.player.hitpoints == 0:
+            self.show_death_screen()
 #defines the method draw_grid
     def draw_grid(self):
         #sets the location and color of the horizontal lines
@@ -199,29 +202,27 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
-            # if event.type == pg.KEYDOWN:
-            #     #if A key pressed, player will move one x position to the left
-            #     if event.key == pg.K_a:
-            #         self.player1.move(dx=-1)
-            #     #if D key pressed, player will move one x position to the right
-            #     if event.key == pg.K_d:
-            #         self.player1.move(dx=1)
-            #     #if S key pressed, player will move one y position down
-            #     if event.key == pg.K_s:
-            #         self.player1.move(dy=1)
-            #     #if W key pressed, player will move one y position up
-            #     if event.key == pg.K_w:
-            #         self.player1.move(dy=-1)
+
     #function to show start screen when game is run
     def show_start_screen(self):
         #sets bg color for start screen
         self.screen.fill(BGCOLOR)
         #draws text on start screen
-        self.draw_text(self.screen, "This is the start screen", 24, WHITE, 8, 9)
+        self.draw_text(self.screen, "Press any key to start", 24, WHITE, 8.7, 9)
         pg.display.flip()
         #waits for key to be pressed to show the game
         self.wait_for_key()
     
+    #function to show start screen when game is run
+    def show_death_screen(self):
+        #sets bg color for death screen
+        self.screen.fill(BLACK)
+        #draws text on death screen
+        self.draw_text(self.screen, "You died! Press any key to restart.", 24, WHITE, 7, 9)
+        pg.display.flip()
+        #waits for key to be pressed to show the game
+        self.wait_for_key()
+
     #function to wait for key press
     def wait_for_key(self):
         waiting = True
@@ -243,4 +244,4 @@ g.show_start_screen()
 while True:
     g.new()
     g.run()
-    # g.show_go_screen()                       
+    # g.show_go_screen()  
