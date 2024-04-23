@@ -2,10 +2,16 @@
 # added this comment to prove github is listening...
 # Imports pygame as pg and imports settings code
 
-#Beta Goals!
 '''
-Death Screen ✔
-Mob/Player/Coin/PowerUp images - replaces block sprites with images
+Beta:
+    Death Screen ✔
+    Mob/Player/Coin/PowerUp images - replaces block sprites with images
+
+Release version:
+    More Maps
+    Player Weapon
+    More Mobs
+    Mob weapon
 '''
 import pygame as pg
 from settings import *
