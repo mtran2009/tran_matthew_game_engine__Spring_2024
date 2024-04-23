@@ -5,7 +5,7 @@
 #Beta Goals!
 '''
 Death Screen ✔
-Mob/Player/Coin/PowerUp images
+Mob/Player/Coin/PowerUp images - replaces block sprites with images
 '''
 import pygame as pg
 from settings import *
