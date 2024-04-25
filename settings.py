@@ -2,7 +2,7 @@
 WIDTH = 800
 HEIGHT = 600
 
-FPS = 100
+FPS = 150
 
 #Game Title
 TITLE  = "My Fun Game"
