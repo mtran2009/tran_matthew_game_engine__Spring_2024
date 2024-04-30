@@ -5,9 +5,11 @@
 '''
 Beta:
     Death Screen ✔
-    Mob/Player/Coin/PowerUp images - replaces block sprites with images
 
 Release version:
+    Different types of powerups
+    Menu
+    Mob/Player/Coin/PowerUp images - replaces block sprites with images
     More Maps
     Player Weapon
     More Mobs
