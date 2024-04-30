@@ -5,15 +5,11 @@
 '''
 Beta:
     Death Screen ✔
+    Different types of powerups
 
 Release version:
-    Different types of powerups
     Menu
-    Mob/Player/Coin/PowerUp images - replaces block sprites with images
     More Maps
-    Player Weapon
-    More Mobs
-    Mob weapon
 '''
 import pygame as pg
 from settings import *
