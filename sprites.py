@@ -62,6 +62,11 @@ class Player(pg.sprite.Sprite):
         self.speed = 300
         #sets original hitpoint (health) level
         self.hitpoints = 100
+    # Initialize speed and timer
+        self.speed = PLAYER_SPEED
+        self.timer = 0
+        # Duration of the powerup effect in seconds
+        self.timer_duration = 5
 
     #function for "get_keys"
     def get_keys(self):
@@ -128,10 +133,14 @@ class Player(pg.sprite.Sprite):
                 self.moneybag += 1
             #Increases speed by 50 if collide with powerup
             if str(hits[0].__class__.__name__) == "PowerUp":
-                self.speed += 50
+                self.speed += 80
+                # Convert duration to frames
+                self.timer = self.timer_duration * FPS
             #Decreases speed by 50 if collide with powerdown
             if str(hits[0].__class__.__name__) == "PowerDown":
                 self.speed -= 50
+                # Convert duration to frames
+                self.timer = self.timer_duration * FPS
             #decreases health if collide with mobs
             if str(hits[0].__class__.__name__) == "Mobs":
                 print(hits[0].__class__.__name__)
@@ -144,6 +153,12 @@ class Player(pg.sprite.Sprite):
 
 
     def update(self):
+        # Update timer
+        if self.timer > 0:
+            self.timer -= 1
+            if self.timer == 0:
+                # Reset speed when timer reaches 0
+                self.speed = PLAYER_SPEED
         self.get_keys()
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt

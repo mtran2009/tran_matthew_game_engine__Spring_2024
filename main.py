@@ -5,11 +5,13 @@
 '''
 Beta:
     Death Screen ✔
-    Different types of powerups
+    Different types of powerups/downs ✔
+    Powerup/down timer ✔
 
 Release version:
     Menu
     More Maps
+    (maybe make random maps) 🤷
 '''
 import pygame as pg
 from settings import *
