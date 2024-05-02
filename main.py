@@ -115,6 +115,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.coins = pg.sprite.Group()
         self.power_ups = pg.sprite.Group()
+        self.power_downs = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.change_map = pg.sprite.Group()
         # Sets size of player and gives player access to everything in the game with "self"
@@ -147,6 +148,9 @@ class Game:
                 #creates a change map block for every "4" in the map
                 if tile == '4':
                     ChangeMap(self, col, row)
+                #creates a change map block for every "5" in the map
+                if tile == '5':
+                    PowerDown(self, col, row)
 
 # Defines the method run
     def run(self):

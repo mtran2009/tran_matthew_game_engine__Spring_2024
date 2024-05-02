@@ -129,6 +129,9 @@ class Player(pg.sprite.Sprite):
             #Increases speed by 50 if collide with powerup
             if str(hits[0].__class__.__name__) == "PowerUp":
                 self.speed += 50
+            #Decreases speed by 50 if collide with powerdown
+            if str(hits[0].__class__.__name__) == "PowerDown":
+                self.speed -= 50
             #decreases health if collide with mobs
             if str(hits[0].__class__.__name__) == "Mobs":
                 print(hits[0].__class__.__name__)
@@ -154,6 +157,8 @@ class Player(pg.sprite.Sprite):
         self.collide_with_group(self.game.coins, True)
         #kills powerup block if collided
         self.collide_with_group(self.game.power_ups, True)
+        #kills powerdown block if collided
+        self.collide_with_group(self.game.power_downs, True)
         #prevents killing mob if collided
         self.collide_with_group(self.game.mobs, False)
         #decreases health if collided with mob
@@ -202,12 +207,28 @@ class Coin(pg.sprite.Sprite):
 class PowerUp(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         #Initializes super class
-        self.groups = game.all_sprites, game.power_ups
+        self.groups = game.all_sprites, game.power_downs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
         #Sets the color of the powerup
         self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+#Creates a class called "PowerDown"
+class PowerDown(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        #Initializes super class
+        self.groups = game.all_sprites, game.power_ups
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        #Sets the color of the powerup
+        self.image.fill(ORANGE)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
