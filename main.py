@@ -10,7 +10,7 @@ Beta:
 
 Release version:
     Menu
-    More Maps
+    More/Better Maps
     (maybe make random maps) 🤷
 '''
 import pygame as pg
