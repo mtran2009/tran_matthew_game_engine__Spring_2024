@@ -66,7 +66,7 @@ class Player(pg.sprite.Sprite):
         self.speed = PLAYER_SPEED
         self.timer = 0
         # Duration of the powerup effect in seconds
-        self.timer_duration = 5
+        self.timer_duration = 3
 
     #function for "get_keys"
     def get_keys(self):
