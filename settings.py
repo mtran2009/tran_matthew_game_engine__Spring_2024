@@ -1,6 +1,6 @@
 #Dimensions of the game
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1024
+HEIGHT = 800
 
 FPS = 150
 
