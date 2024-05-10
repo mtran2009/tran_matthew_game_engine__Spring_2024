@@ -174,8 +174,6 @@ class Player(pg.sprite.Sprite):
         self.collide_with_group(self.game.power_ups, True)
         #kills powerdown block if collided
         self.collide_with_group(self.game.power_downs, True)
-        #prevents killing mob if collided
-        self.collide_with_group(self.game.mobs, False)
         #decreases health if collided with mob
         if self.collide_with_group(self.game.mobs, False):
             self.hitpoints = -1

@@ -21,7 +21,7 @@ import sys
 from os import path
 
 #Map levels
-Level1 = "map.txt"
+Level1 = "map1.txt"
 Level2 = "map2.txt"
 
 #Function to draw a health bar
@@ -69,15 +69,21 @@ class Game:
 
 #function to change the level when a certain block is hit
     def change_level(self, lvl):
-        # kill all existing sprites first to save memory
-        for s in self.all_sprites:
-            s.kill()
-        # resets player moneybag
-        self.player.moneybag = 0
+
+        # Initialize groups
+        self.all_sprites = pg.sprite.Group()
+        self.walls = pg.sprite.Group()
+        self.power_ups = pg.sprite.Group()
+        self.power_downs = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
+        self.player = pg.sprite.Group()
+        self.change_map = pg.sprite.Group()
+        self.coins = pg.sprite.Group()
+
         # reset map data list to empty
         self.map_data = []
         # open next level
-        with open(path.join(self.game_folder, Level2), 'rt') as f:
+        with open(path.join(self.game_folder, lvl), 'rt') as f:
             for line in f:
                 print(line)
                 self.map_data.append(line)
@@ -110,6 +116,8 @@ class Game:
                 #creates a change map block for every "5" in the map
                 if tile == '5':
                     PowerDown(self, col, row)
+        # resets player moneybag
+        self.player.moneybag = 0
 
 # Defines the method new
     def new(self):
@@ -222,9 +230,9 @@ class Game:
         self.screen.fill(BGCOLOR)
         # Draws text on start screen
         self.draw_text(self.screen, "Choose a level", 24, WHITE, 13.5, 6)
-        self.draw_text(self.screen, "Level 1", 24, WHITE, 14.7, 10)        
-        self.draw_text(self.screen, "Level 2", 24, WHITE, 14.7, 12)        
-        self.draw_text(self.screen, "Quit Game", 24, WHITE, 14.7, 14)
+        self.draw_text(self.screen, "Level 1", 24, WHITE, 14.9, 10)        
+        self.draw_text(self.screen, "Level 2", 24, WHITE, 14.9, 12)        
+        self.draw_text(self.screen, "Quit Game", 24, WHITE, 14.3, 14)
         pg.display.flip()
 
         # Event loop for level selection
@@ -256,10 +264,35 @@ class Game:
         #sets bg color for death screen
         self.screen.fill(BLACK)
         #draws text on death screen
-        self.draw_text(self.screen, "You died! Press any key to restart.", 24, WHITE, 7, 9)
+        self.draw_text(self.screen, "You died! Choose a level to retry.", 24, WHITE, 10.6, 6)
+        self.draw_text(self.screen, "Level 1", 24, WHITE, 14.9, 10)        
+        self.draw_text(self.screen, "Level 2", 24, WHITE, 14.9, 12)        
+        self.draw_text(self.screen, "Quit Game", 24, WHITE, 14.3, 14)
         pg.display.flip()
-        #waits for key to be pressed to show the game
-        self.wait_for_key()
+
+        # Event loop for level selection
+        selecting_level = True
+        while selecting_level:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    selecting_level = False
+                    self.quit()
+                elif event.type == pg.MOUSEBUTTONDOWN:
+                    # Get mouse position
+                    mouse_x, mouse_y = event.pos
+                    # Check if Level 1 is clicked
+                    if 14.7 * TILESIZE <= mouse_x <= 16.7 * TILESIZE and 10 * TILESIZE <= mouse_y <= 11 * TILESIZE:
+                        self.change_level(Level1)
+                        selecting_level = False
+                    # Check if Level 2 is clicked
+                    elif 14.7 * TILESIZE <= mouse_x <= 16.7 * TILESIZE and 12 * TILESIZE <= mouse_y <= 13 * TILESIZE:
+                        self.change_level(Level2)
+                        selecting_level = False
+                    # Add more levels as needed
+                    # Check if Quit Game is clicked
+                    elif 14.7 * TILESIZE <= mouse_x <= 16.7 * TILESIZE and 14 * TILESIZE <= mouse_y <= 15 * TILESIZE:
+                        selecting_level = False
+                        self.quit()
 
     #function to wait for key press
     def wait_for_key(self):
