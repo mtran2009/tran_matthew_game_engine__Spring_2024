@@ -6,9 +6,9 @@
 Beta:
     Death Screen ✔
     Different types of powerups/downs ✔
+    Powerup/down timer ✔
 
 Release version:
-    Powerup/down timer ✔
     Menu ✔
     More/Better Maps
     (maybe make random maps) 🤷
