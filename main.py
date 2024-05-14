@@ -9,7 +9,7 @@ Beta:
 
 Release version:
     Powerup/down timer ✔
-    Menu
+    Menu ✔
     More/Better Maps
     (maybe make random maps) 🤷
 '''
@@ -50,7 +50,7 @@ class Game:
         # Allows us to edit the frames per second of the game (game clock)
         self.clock = pg.time.Clock()
         self.load_data()
-#Defines the load data method, displays high score for game
+#Defines the load data method
     def load_data(self):
         self.game_folder = path.dirname(__file__)
         # self.img_folder = path.join(self.game_folder, 'images')
